@@ -1,1 +1,1 @@
-web: gunicorn booklist_project.wsgi --log-file -
+web: gunicorn Boimela.wsgi --log-file -
