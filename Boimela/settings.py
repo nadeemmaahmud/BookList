@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'corsheaders',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -83,12 +84,9 @@ WSGI_APPLICATION = 'Boimela.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+DATABASE_URL = os.environ.get("DATABASE_URL")
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=False)
 }
 
 # Password validation
@@ -128,6 +126,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'saticfiles')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -139,3 +141,11 @@ CORS_ALLOW_ALL_ORIGINS = True
     "http://localhost:3000",               # React dev server
     "https://your-frontend.vercel.app",    # Production frontend
 ]'''
+
+AUTH_USER_MODEL = 'user.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
