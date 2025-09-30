@@ -21,11 +21,12 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenBlacklistView, TokenRefreshView
 
-from core.views import BookViewSet
+from core.views import BookViewSet, FeedbackViewSet
 from user.views import UserCreateViewSet
 
 router = DefaultRouter()
 router.register(r'books', BookViewSet, basename='books')
+router.register(r'book/feedbacks', FeedbackViewSet, basename='feedbacks')
 router.register(r'users', UserCreateViewSet, basename='users')
 
 urlpatterns = [
@@ -34,9 +35,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('api/token/login/', TokenObtainPairView.as_view(), name='token_obtain_pair_view'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair_view'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh_view'),
-    path('api/token/logout/', TokenBlacklistView.as_view(), name='token_blacklist_view'),
 ]
 
 if settings.DEBUG:
